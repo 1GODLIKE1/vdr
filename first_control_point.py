@@ -59,11 +59,6 @@ class ControlPoint(object):
         else: logging.info('WARNING: No new archives were found on the FTP server')
 
             
-
-
-
-
-
 if __name__ == "__main__":
     logging.basicConfig(
         level=logging.INFO,
