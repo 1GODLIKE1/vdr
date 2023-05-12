@@ -9,6 +9,7 @@ from data.archive.script.read_scripts import VendorScripts
 from data.archive.special.delete_other_special import VendorSpecial
 from data.archive.xls.read_xls import VendorXls
 from data.json.create_json_obj import JsonObj
+from data.archive.tree.tree import Tree
 
 REPLASES_PATH = ""
 REPLASES_REPO = ""
@@ -40,6 +41,8 @@ class ControlPoint(object):
                 "ALL_ARCHIVES": ALL_ARCHIVES
             }
 
+            tree_extend_obj = {}
+            
             for archive in ALL_ARCHIVES:
                 VendorSpecial(self.RELEASE_PATH, archive)        
                 scripts_path = VendorScripts(self.RELEASE_PATH, archive).script() 
@@ -47,14 +50,17 @@ class ControlPoint(object):
                     logging.info(f"Oracle11 files found in the archive {archive}")
                 docx_obj = VendorDocx(self.RELEASE_PATH, archive, scripts_path[1]).docx()
                 xls_obj = VendorXls(self.RELEASE_PATH, archive).xls()
-                
-                oracle_exists_obj[archive] = {
-                    [
-                        docx_obj,
-                        xls_obj 
-                    ]
-                }
-            JsonObj(self.RELEASE_PATH, f"5.06.{RELEASE_VERSION}.000", oracle_exists_obj).obj()
+                tree_obj = Tree(self.RELEASE_PATH, archive)
+
+                oracle_exists_obj[archive] = [
+                    docx_obj,
+                    xls_obj 
+                ]
+
+                tree_extend_obj[archive] = tree_obj
+
+            JsonObj(self.RELEASE_PATH, f"5.06.{RELEASE_VERSION}.000", oracle_exists_obj, 'data').obj()
+            JsonObj(self.RELEASE_PATH, )
             logging.info("The json object has been pumped out, please consider it !")
         else: logging.info('WARNING: No new archives were found on the FTP server')
 
