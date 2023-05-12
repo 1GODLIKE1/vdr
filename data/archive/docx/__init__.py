@@ -1,0 +1,1 @@
+from data.archive.docx import read_docx_for_scripts
