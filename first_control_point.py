@@ -41,8 +41,6 @@ class ControlPoint(object):
                 "ALL_ARCHIVES": ALL_ARCHIVES
             }
 
-            tree_extend_obj = {}
-            
             for archive in ALL_ARCHIVES:
                 VendorSpecial(self.RELEASE_PATH, archive)        
                 scripts_path = VendorScripts(self.RELEASE_PATH, archive).script() 
@@ -50,17 +48,17 @@ class ControlPoint(object):
                     logging.info(f"Oracle11 files found in the archive {archive}")
                 docx_obj = VendorDocx(self.RELEASE_PATH, archive, scripts_path[1]).docx()
                 xls_obj = VendorXls(self.RELEASE_PATH, archive).xls()
-                tree_obj = Tree(self.RELEASE_PATH, archive)
+                Files_path_list = Tree(self.RELEASE_PATH, archive).tree()
 
                 oracle_exists_obj[archive] = [
                     docx_obj,
-                    xls_obj 
+                    xls_obj,
+                    {"AllFiles": Files_path_list}
                 ]
 
-                tree_extend_obj[archive] = tree_obj
+               
 
             JsonObj(self.RELEASE_PATH, f"5.06.{RELEASE_VERSION}.000", oracle_exists_obj, 'data').obj()
-            JsonObj(self.RELEASE_PATH, )
             logging.info("The json object has been pumped out, please consider it !")
         else: logging.info('WARNING: No new archives were found on the FTP server')
 
