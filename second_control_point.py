@@ -6,9 +6,10 @@ REPLASES_PATH = ""
 REPLASES_REPO = ""
 
 class ControlPoint(object):
-    def __init__(self, JIRA_USER, JIRA_PASSWORD):
+    def __init__(self, JIRA_USER, JIRA_PASSWORD, JSON_DUMP):
         self.JIRA_USER = JIRA_USER
         self.JIRA_PASSWORD = JIRA_PASSWORD
+        self.JSON_DUMP = JSON_DUMP
 
         self.RELEASE_PATH = os.getcwd().replace(REPLASES_PATH, "").replace(REPLASES_REPO, "tmp")
 
@@ -24,10 +25,7 @@ if __name__ == "__main__":
         stream=sys.stdout
     )
 
-    JIRA_USER = sys.argv[0]
-    JIRA_PASSWORD = sys.argv[1]
-    RELEASE_CONFIG_PATH = sys.argv[2]
-
-    JSON_ORACLE_DUMP = sys.argv[3]
-    JSON_FILE_DUMP = sys.argv[4]
-    
+    JIRA_USER = sys.argv[1]
+    JIRA_PASSWORD = sys.argv[2]
+    RELEASE_CONFIG_PATH = sys.argv[3]
+    JSON_DUMP = sys.argv[4]
